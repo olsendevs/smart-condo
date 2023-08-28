@@ -22,19 +22,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-
-import { useEffect, useState } from 'react';
 import React from 'react';
 import { Icons } from '@/components/ui/icons';
 
 export function CondominiumForm() {
-  const [condominium, setCondominium] = useState([
+  const [condominium, setCondominium] = React.useState([
     { id: 0, name: '' },
   ]);
   const [isLoading, setIsLoading] =
     React.useState<boolean>(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     setCondominium([
       { id: 1, name: 'Condominio A' },
       { id: 2, name: 'Condominio B' },
