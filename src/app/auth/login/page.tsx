@@ -1,20 +1,15 @@
-import { Metadata } from "next"
-import Image from "next/image"
-import Link from "next/link"
-
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
-import { UserAuthForm } from "./components/user-auth-form"
+import { Metadata } from 'next';
+import { UserAuthForm } from './components/user-auth-form';
 
 export const metadata: Metadata = {
-  title: "Authentication",
-  description: "Authentication forms built using the components.",
-}
+  title: 'Login',
+  description:
+    'Realize o o login para se autenticar na plataforma.',
+};
 
 export default function AuthenticationPage() {
   return (
     <>
-
       <div className="container relative hidden h-[100vh] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
           <div className="absolute inset-0 bg-zinc-900" />
@@ -36,7 +31,8 @@ export default function AuthenticationPage() {
           <div className="relative z-20 mt-auto">
             <blockquote className="space-y-2">
               <p className="text-lg">
-                &ldquo;Conhecer a si mesmo é o primeiro passo para compreender o universo&rdquo;
+                &ldquo;Conhecer a si mesmo é o primeiro
+                passo para compreender o universo&rdquo;
               </p>
               <footer className="text-sm">Sócrates</footer>
             </blockquote>
@@ -49,14 +45,14 @@ export default function AuthenticationPage() {
                 Olá, tudo bem? 😊
               </h1>
               <p className="text-sm text-muted-foreground">
-                Insira seu e-mail e sua senha abaixo para acessar o painel
+                Insira seu e-mail e sua senha abaixo para
+                acessar o painel
               </p>
             </div>
             <UserAuthForm />
-
           </div>
         </div>
       </div>
     </>
-  )
+  );
 }
