@@ -1,6 +1,6 @@
 import { authService } from '../../services';
 import Cookies from 'js-cookie';
-import { User } from '../../types/user';
+import { AuthUser } from '../../types/auth-user';
 
 export const useLogin = () => {
   const login = async (email: string, password: string) => {
@@ -8,7 +8,7 @@ export const useLogin = () => {
     if (user) {
       Cookies.set('currentUser', JSON.stringify(user));
     }
-    return user as User;
+    return user as AuthUser;
   };
 
   return { login };

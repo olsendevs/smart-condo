@@ -1,6 +1,5 @@
 export type User = {
   email: string;
-  type: string;
-  accessToken: string;
-  id: string;
+  type: 'admin' | 'manager' | 'employee';
+  _id: string;
 };

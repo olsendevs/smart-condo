@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
-import { User } from '../../types/user';
-import { authService } from '../../services';
+import { AuthUser } from '../../types/auth-user';
 
 export const useCurrentUser = () => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<AuthUser | null>(null);
 
   useEffect(() => {
     const currentUser = Cookies.get('currentUser');
