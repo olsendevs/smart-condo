@@ -61,7 +61,10 @@ export function UserAuthForm({
       await login(data.email, data.password)
         .then((res) => {
           localStorage.setItem('user', JSON.stringify(res));
-          router.push('/auth/condominium');
+          setTimeout(() => {
+            router.push('/auth/condominium');
+            setIsLoading(false);
+          }, 300);
         })
         .catch((e) => {
           console.log(e);
@@ -70,9 +73,9 @@ export function UserAuthForm({
               'Erro ao realizar login, tente novamente.',
             variant: 'destructive',
           });
+          setIsLoading(false);
         });
     }
-    setIsLoading(false);
   }
 
   return (

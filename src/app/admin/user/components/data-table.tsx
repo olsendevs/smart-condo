@@ -35,6 +35,7 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] =
     React.useState<SortingState>([]);
+
   const [columnFilters, setColumnFilters] =
     React.useState<ColumnFiltersState>([]);
   const table = useReactTable({
@@ -55,6 +56,16 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       <div className="flex items-center py-4">
+        <Button
+          className="mr-2"
+          onClick={() => {
+            document
+              .getElementById('open-create-form')
+              ?.click();
+          }}
+        >
+          Adicionar
+        </Button>
         <Input
           placeholder="Pesquise por email..."
           value={
@@ -67,7 +78,7 @@ export function DataTable<TData, TValue>({
               .getColumn('email')
               ?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className="max-w-sm py-5 ml-auto"
         />
       </div>
       <div className="rounded-md border">

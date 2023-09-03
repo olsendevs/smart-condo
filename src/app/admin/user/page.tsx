@@ -6,11 +6,18 @@ import { User } from '@/types/user';
 import { columns } from './components/columns';
 import 'dotenv/config';
 import { LoadingSpinner } from '@/components/admin/loading-spinner';
-import { set } from 'react-hook-form';
+import { CreateUserForm } from './components/create-user-form';
+import { EditUserForm } from './components/edit-user-form';
 
 export default function User() {
   const [data, setData] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [formType, setFormType] = React.useState('Criar');
+  const [editFormData, setEditFormData] = React.useState({
+    name: '',
+    email: '',
+    type: '',
+  });
 
   React.useEffect(() => {
     async function fetchData() {
@@ -44,7 +51,15 @@ export default function User() {
   return (
     <main className="pt-20 pl-5">
       <h1 className="pb-2">Usuários</h1>
-      <DataTable columns={columns} data={data} />
+      <DataTable
+        columns={columns({ editFormData, setEditFormData })}
+        data={data}
+      />
+      <CreateUserForm />
+      <EditUserForm
+        formData={editFormData}
+        setFormData={setEditFormData}
+      />
       <LoadingSpinner visible={isLoading} />
     </main>
   );

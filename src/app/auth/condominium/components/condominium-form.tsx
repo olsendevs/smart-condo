@@ -85,8 +85,10 @@ export function CondominiumForm() {
         ),
       );
     }
-    setIsLoading(false);
-    router.push('/admin/home');
+    setTimeout(() => {
+      setIsLoading(false);
+      router.push('/admin/home');
+    }, 300);
   }
 
   return (

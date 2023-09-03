@@ -54,7 +54,7 @@ export default function MenuHeader() {
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
-            <NavigationMenuItem>
+            <NavigationMenuItem className="mx-1">
               <Link
                 href="/admin/ambient"
                 legacyBehavior
@@ -68,7 +68,7 @@ export default function MenuHeader() {
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
-            <NavigationMenuItem>
+            <NavigationMenuItem className="mx-1">
               <Link
                 href="/admin/project"
                 legacyBehavior
@@ -82,7 +82,7 @@ export default function MenuHeader() {
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
-            <NavigationMenuItem>
+            <NavigationMenuItem className="mx-1">
               <Link
                 href="/admin/maintenance"
                 legacyBehavior
@@ -96,7 +96,7 @@ export default function MenuHeader() {
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
-            <NavigationMenuItem>
+            <NavigationMenuItem className="mx-1">
               <Link
                 href="/admin/user"
                 legacyBehavior
