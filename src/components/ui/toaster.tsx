@@ -22,9 +22,8 @@ export function Toaster() {
         action,
         ...props
       }) {
-        console.log(title);
         return (
-          <Toast key={id} {...props}>
+          <Toast key={id} {...props} className="mb-5">
             <div className="grid gap-1">
               {title && <ToastTitle>{title}</ToastTitle>}
               {description && (

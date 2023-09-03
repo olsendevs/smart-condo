@@ -9,10 +9,8 @@ import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import {
@@ -24,22 +22,39 @@ import {
 } from '@/components/ui/select';
 import React from 'react';
 import { Icons } from '@/components/ui/icons';
-
+import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 export function CondominiumForm() {
+  const router = useRouter();
   const [condominium, setCondominium] = React.useState([
-    { id: 0, name: '' },
+    { _id: '', name: '' },
   ]);
   const [isLoading, setIsLoading] =
     React.useState<boolean>(false);
 
   React.useEffect(() => {
-    setCondominium([
-      { id: 1, name: 'Condominio A' },
-      { id: 2, name: 'Condominio B' },
-      { id: 3, name: 'Condominio C' },
-      { id: 4, name: 'Condominio D' },
-    ]);
+    fetchData();
   }, []);
+
+  const fetchData = async () => {
+    try {
+      const token = JSON.parse(
+        localStorage.getItem('user') || '',
+      ).accessToken;
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/condominium/`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      const responseData = await response.json();
+      setCondominium(responseData);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
 
   const FormSchema = z.object({
     condominium: z.string({
@@ -52,13 +67,26 @@ export function CondominiumForm() {
     resolver: zodResolver(FormSchema),
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
+  async function onSubmit(
+    data: z.infer<typeof FormSchema>,
+  ) {
     setIsLoading(true);
-
-    setTimeout(() => {
-      setIsLoading(false);
-      window.location.href = '/';
-    }, 3000);
+    if (data.condominium) {
+      Cookies.set(
+        'currentCondominium',
+        JSON.stringify(data.condominium),
+      );
+      localStorage.setItem(
+        'condominium',
+        JSON.stringify(
+          condominium.find(
+            (i) => i._id == data.condominium,
+          ),
+        ),
+      );
+    }
+    setIsLoading(false);
+    router.push('/admin/home');
   }
 
   return (
@@ -85,8 +113,8 @@ export function CondominiumForm() {
                   {condominium.map((item) => {
                     return (
                       <SelectItem
-                        value={item.name}
-                        key={item.id}
+                        value={item._id}
+                        key={item._id}
                       >
                         {item.name}
                       </SelectItem>

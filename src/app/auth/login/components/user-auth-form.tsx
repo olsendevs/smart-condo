@@ -6,7 +6,6 @@ import { cn } from '@/lib/utils';
 import { Icons } from '@/components/ui/icons';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -16,7 +15,10 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
-
+import { useRouter } from 'next/navigation';
+import { Toaster } from '@/components/ui/toaster';
+import { toast } from '@/components/ui/use-toast';
+import { useLogin } from '@/hooks/auth/useLogin';
 interface UserAuthFormProps
   extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -24,6 +26,7 @@ export function UserAuthForm({
   className,
   ...props
 }: UserAuthFormProps) {
+  const router = useRouter();
   const FormSchema = z.object({
     email: z
       .string({
@@ -43,13 +46,33 @@ export function UserAuthForm({
   const [isLoading, setIsLoading] =
     React.useState<boolean>(false);
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    setIsLoading(true);
+  const { login } = useLogin();
 
-    setTimeout(() => {
-      setIsLoading(false);
-      window.location.href = '/auth/condominium';
-    }, 3000);
+  async function onSubmit(
+    data: z.infer<typeof FormSchema>,
+  ) {
+    setIsLoading(true);
+    if (!data.email || !data.password) {
+      toast({
+        description: 'Please enter information',
+        variant: 'destructive',
+      });
+    } else {
+      await login(data.email, data.password)
+        .then((res) => {
+          localStorage.setItem('user', JSON.stringify(res));
+          router.push('/auth/condominium');
+        })
+        .catch((e) => {
+          console.log(e);
+          toast({
+            description:
+              'Erro ao realizar login, tente novamente.',
+            variant: 'destructive',
+          });
+        });
+    }
+    setIsLoading(false);
   }
 
   return (
@@ -109,6 +132,7 @@ export function UserAuthForm({
           </div>
         </form>
       </Form>
+      <Toaster />
     </div>
   );
 }
