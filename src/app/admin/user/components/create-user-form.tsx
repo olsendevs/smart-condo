@@ -20,7 +20,10 @@ export function CreateUserForm({ name, type, email }: any) {
         id="open-create-form"
         className="hidden"
       ></SheetTrigger>
-      <SheetContent className="w-[50vw] max-w-none">
+      <SheetContent
+        side={'left'}
+        className="w-auto max-w-none"
+      >
         <SheetHeader>
           <SheetTitle>Criar usuário</SheetTitle>
           <SheetDescription>

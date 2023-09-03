@@ -12,7 +12,7 @@ import { EditUserForm } from './components/edit-user-form';
 export default function User() {
   const [data, setData] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [formType, setFormType] = React.useState('Criar');
+
   const [editFormData, setEditFormData] = React.useState({
     name: '',
     email: '',
