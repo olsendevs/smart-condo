@@ -33,6 +33,31 @@ export function columns({
       },
     },
     {
+      accessorKey: 'name',
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() =>
+              column.toggleSorting(
+                column.getIsSorted() === 'asc',
+              )
+            }
+          >
+            Nome
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        return (
+          <div className="text-start ml-4">
+            {row.getValue('name')}
+          </div>
+        );
+      },
+    },
+    {
       accessorKey: 'email',
       header: ({ column }) => {
         return (
@@ -68,10 +93,15 @@ export function columns({
         );
       },
       cell: ({ row }) => {
+        const names: Record<string, string> = {
+          admin: 'Admin',
+          manager: 'Sindico',
+          employee: 'Empregado',
+        };
+        const item = row.getValue('type') as any;
+        const result = names[item] as any;
         return (
-          <div className="text-start ml-5">
-            {row.getValue('type')}
-          </div>
+          <div className="text-start ml-5">{result}</div>
         );
       },
     },
