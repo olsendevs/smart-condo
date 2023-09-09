@@ -77,6 +77,7 @@ export function Dropdown({
       name: user.name,
       email: user.email,
       type: user.type,
+      id: user._id,
     }));
 
     document.getElementById('open-edit-form')?.click();
@@ -115,7 +116,6 @@ export function Dropdown({
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <Toaster />
     </>
   );
 }

@@ -12,7 +12,11 @@ import { create } from 'domain';
 
 export default function User() {
   const [tableData, setTableData] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  const [updateData, setUpdateData] = React.useState(
+    new Date(),
+  );
 
   const [editFormData, setEditFormData] = React.useState({
     name: '',
@@ -47,7 +51,7 @@ export default function User() {
     }
 
     fetchData();
-  }, []);
+  }, [updateData]);
 
   return (
     <main className="pt-20 pl-5">
@@ -65,10 +69,13 @@ export default function User() {
         tableData={tableData}
         setTableData={setTableData}
       />
-      <EditUserForm
-        formData={editFormData}
-        setFormData={setEditFormData}
-      />
+      <div>
+        <EditUserForm
+          formData={editFormData}
+          setFormData={setEditFormData}
+          setUpdateData={setUpdateData}
+        />
+      </div>
       <LoadingSpinner visible={isLoading} />
     </main>
   );
