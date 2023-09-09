@@ -20,14 +20,6 @@ export default function User() {
     type: '',
   });
 
-  const [createFormData, setCreateFormData] =
-    React.useState({
-      name: '',
-      email: '',
-      password: '',
-      type: '',
-    });
-
   React.useEffect(() => {
     async function fetchData() {
       try {
@@ -65,8 +57,6 @@ export default function User() {
         data={tableData}
       />
       <CreateUserForm
-        formData={createFormData}
-        setFormData={setCreateFormData}
         tableData={tableData}
         setTableData={setTableData}
       />
