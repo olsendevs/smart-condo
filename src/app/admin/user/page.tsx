@@ -8,9 +8,10 @@ import 'dotenv/config';
 import { LoadingSpinner } from '@/components/admin/loading-spinner';
 import { CreateUserForm } from './components/create-user-form';
 import { EditUserForm } from './components/edit-user-form';
+import { create } from 'domain';
 
 export default function User() {
-  const [data, setData] = React.useState([]);
+  const [tableData, setTableData] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
   const [editFormData, setEditFormData] = React.useState({
@@ -18,6 +19,14 @@ export default function User() {
     email: '',
     type: '',
   });
+
+  const [createFormData, setCreateFormData] =
+    React.useState({
+      name: '',
+      email: '',
+      password: '',
+      type: '',
+    });
 
   React.useEffect(() => {
     async function fetchData() {
@@ -35,10 +44,10 @@ export default function User() {
         );
         const responseData = await response.json();
 
-        setData(responseData);
+        setTableData(responseData);
       } catch (error) {
         console.error('Error:', error);
-        setData([]);
+        setTableData([]);
       }
       setTimeout(() => {
         setIsLoading(false);
@@ -53,9 +62,14 @@ export default function User() {
       <h1 className="pb-2">Usuários</h1>
       <DataTable
         columns={columns({ editFormData, setEditFormData })}
-        data={data}
+        data={tableData}
       />
-      <CreateUserForm />
+      <CreateUserForm
+        formData={createFormData}
+        setFormData={setCreateFormData}
+        tableData={tableData}
+        setTableData={setTableData}
+      />
       <EditUserForm
         formData={editFormData}
         setFormData={setEditFormData}
