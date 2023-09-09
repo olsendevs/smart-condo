@@ -70,6 +70,20 @@ export default function MenuHeader() {
             </NavigationMenuItem>
             <NavigationMenuItem className="mx-1">
               <Link
+                href="/admin/cleanup"
+                legacyBehavior
+                passHref
+              >
+                <NavigationMenuLink
+                  className={navigationMenuTriggerStyle()}
+                  onClick={handleLinkClick}
+                >
+                  Limpeza
+                </NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem className="mx-1">
+              <Link
                 href="/admin/project"
                 legacyBehavior
                 passHref
