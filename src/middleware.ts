@@ -32,20 +32,4 @@ export async function middleware(request: NextRequest) {
       new URL('/admin/home', request.url),
     );
   }
-
-  const currentCondominium = request.cookies.get(
-    'currentCondominium',
-  )?.value;
-  if (
-    [`/`].includes(request.nextUrl.pathname) &&
-    !currentCondominium
-  ) {
-    request.cookies.delete('currentCondominium');
-    const response = NextResponse.redirect(
-      new URL('/auth/condominium', request.url),
-    );
-    response.cookies.delete('currentCondominium');
-
-    return response;
-  }
 }
