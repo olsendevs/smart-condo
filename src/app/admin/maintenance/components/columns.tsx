@@ -1,6 +1,6 @@
 'use client';
 
-import { Ambient } from '@/types/ambient';
+import { Maintenance } from '@/types/maintenance';
 
 import { ColumnDef } from '@tanstack/react-table';
 
@@ -14,7 +14,7 @@ export function columns({
   setEditFormData,
   tableData,
   setTableData,
-}: any): ColumnDef<Ambient>[] {
+}: any): ColumnDef<Maintenance>[] {
   return [
     {
       accessorKey: '_id',
@@ -60,18 +60,19 @@ export function columns({
       },
     },
     {
-      accessorKey: 'description',
+      accessorKey: 'ambientId.name',
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
+            className="ml-[-14px]"
             onClick={() =>
               column.toggleSorting(
                 column.getIsSorted() === 'asc',
               )
             }
           >
-            Descrição
+            Ambiente
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         );
@@ -80,11 +81,11 @@ export function columns({
     {
       id: 'actions',
       cell: ({ row }) => {
-        const ambient = row.original;
+        const maintenance = row.original;
 
         return (
           <Dropdown
-            ambient={ambient}
+            maintenance={maintenance}
             setEditFormData={setEditFormData}
             setTableData={setTableData}
             tableData={tableData}

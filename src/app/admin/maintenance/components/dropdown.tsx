@@ -12,16 +12,16 @@ import { MoreHorizontal } from 'lucide-react';
 import { useLoading } from '@/components/admin/is-loading';
 import { toast } from '@/components/ui/use-toast';
 import { Toaster } from '@/components/ui/toaster';
-import { Ambient } from '@/types/ambient';
+import { Maintenance } from '@/types/maintenance';
 
 export function Dropdown({
-  ambient,
+  maintenance,
   setEditFormData,
   tableData,
   setTableData,
 }: any) {
   const { setIsLoading } = useLoading();
-  async function deleteAmbient(id: any) {
+  async function deleteMaintenance(id: any) {
     setIsLoading(true);
     setEditFormData({
       name: '',
@@ -34,7 +34,7 @@ export function Dropdown({
         localStorage.getItem('user') || '',
       ).accessToken;
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/ambient/${id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/maintenance/${id}`,
         {
           method: 'DELETE',
           headers: {
@@ -49,7 +49,7 @@ export function Dropdown({
       ) {
         toast({
           title:
-            'Erro ao deletar ambiente. Tente novamente.',
+            'Erro ao deletar Manutenção. Tente novamente.',
           variant: 'destructive',
         });
         return;
@@ -65,7 +65,7 @@ export function Dropdown({
     }
     setTimeout(() => {
       toast({
-        title: 'Ambiente deletado com sucesso!',
+        title: 'Manutenção deletada com sucesso!',
         variant: 'destructive',
       });
       setIsLoading(false);
@@ -73,34 +73,17 @@ export function Dropdown({
     return;
   }
 
-  function editAmbient(ambient: any) {
+  function editMaintenance(maintenance: any) {
+    console.log(maintenance);
     setEditFormData(() => ({
-      name: ambient.name,
-      description: ambient.description,
-      id: ambient._id,
+      name: maintenance.name,
+      ambientId: maintenance.ambientId._id,
+      id: maintenance._id,
     }));
 
     document.getElementById('open-edit-form')?.click();
 
     return;
-  }
-
-  function printQRCode(ambient: Ambient) {
-    const printWindow = window.open('', '_blank');
-    if (printWindow) {
-      printWindow.document.write(
-        `<html><head><title>${ambient.name}</title></head><body>`,
-      );
-      printWindow.document.write(
-        `<div style='display: flex; flex-direction: column; flex-wrap: wrap; justify-content: center; align-items: center; font-family: system-ui;'>
-          <h1>${ambient.name}</h1>
-          <img src="${ambient.qrCode}" alt="QRCode" style='width: 50vw'/>
-          <h4>${ambient.description}</h4>
-          </div>`,
-      );
-      printWindow.document.write('</body></html>');
-      printWindow.document.close();
-    }
   }
 
   return (
@@ -114,21 +97,23 @@ export function Dropdown({
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>
-            Ações no ambiente
+            Ações no maintenancee
           </DropdownMenuLabel>
           <DropdownMenuItem
-            onClick={() => printQRCode(ambient)}
+            onClick={() => console.log(maintenance)}
           >
-            Imprimir QRCode
+            Produtos comprados
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
-            onClick={() => editAmbient(ambient)}
+            onClick={() => editMaintenance(maintenance)}
           >
             Editar
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() => deleteAmbient(ambient._id)}
+            onClick={() =>
+              deleteMaintenance(maintenance._id)
+            }
           >
             Deletar
           </DropdownMenuItem>

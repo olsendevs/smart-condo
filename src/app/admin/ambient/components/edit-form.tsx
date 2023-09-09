@@ -11,7 +11,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { SelectForm } from './select-type';
 import { useLoading } from '@/components/admin/is-loading';
 import { toast } from '@/components/ui/use-toast';
 

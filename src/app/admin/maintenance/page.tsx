@@ -2,14 +2,14 @@
 
 import React from 'react';
 import { DataTable } from './components/data-table';
-import { Ambient } from '@/types/ambient';
+import { Maintenance } from '@/types/maintenance';
 import { columns } from './components/columns';
 import 'dotenv/config';
 import { LoadingSpinner } from '@/components/admin/loading-spinner';
-import { CreateAmbientForm } from './components/create-form';
-import { EditAmbientForm } from './components/edit-form';
+import { CreateMaintenanceForm } from './components/create-form';
+import { EditMaintenanceForm } from './components/edit-form';
 
-export default function Ambient() {
+export default function Maintenance() {
   const [tableData, setTableData] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -19,7 +19,7 @@ export default function Ambient() {
 
   const [editFormData, setEditFormData] = React.useState({
     name: '',
-    description: '',
+    ambientId: '',
   });
 
   React.useEffect(() => {
@@ -33,7 +33,7 @@ export default function Ambient() {
           localStorage.getItem('condominium') || '',
         )._id;
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/ambient/condominium/${condominiumId}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/maintenance/condominium/${condominiumId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -57,7 +57,7 @@ export default function Ambient() {
 
   return (
     <main className="pt-20 pl-5">
-      <h1 className="pb-2">Ambientes</h1>
+      <h1 className="pb-2">Manutenções</h1>
       <DataTable
         columns={columns({
           editFormData,
@@ -67,12 +67,12 @@ export default function Ambient() {
         })}
         data={tableData}
       />
-      <CreateAmbientForm
+      <CreateMaintenanceForm
         tableData={tableData}
         setTableData={setTableData}
       />
       <div>
-        <EditAmbientForm
+        <EditMaintenanceForm
           formData={editFormData}
           setFormData={setEditFormData}
           setUpdateData={setUpdateData}

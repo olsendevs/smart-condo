@@ -24,8 +24,9 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
+import { useState } from 'react';
 
-export function CreateAmbientForm({
+export function CreateMaintenanceForm({
   tableData,
   setTableData,
 }: any) {
@@ -33,8 +34,8 @@ export function CreateAmbientForm({
     name: z.string({
       required_error: 'O nome é obrigatório',
     }),
-    description: z.string({
-      required_error: 'A descrição é obrigatório',
+    ambient: z.string({
+      required_error: 'O ambiente é obrigatório',
     }),
   });
 
@@ -57,12 +58,13 @@ export function CreateAmbientForm({
       );
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/ambient/`,
+        `${process.env.NEXT_PUBLIC_API_URL}/maintenance/`,
         {
           method: 'POST',
           body: JSON.stringify({
             ...data,
             condominiumId: condominium._id,
+            ambientId: data.ambient,
           }),
           headers: {
             Authorization: `Bearer ${token}`,
@@ -79,7 +81,7 @@ export function CreateAmbientForm({
       ) {
         toast({
           title:
-            'Erro ao adicionar ambiente. Tente novamente.',
+            'Erro ao adicionar Manutenção. Tente novamente.',
           variant: 'destructive',
           description: responseData.message,
         });
@@ -89,13 +91,13 @@ export function CreateAmbientForm({
       setTableData([...tableData, responseData]);
 
       toast({
-        title: 'Ambiente adicionado com sucesso!',
+        title: 'Manutenção adicionada com sucesso!',
         variant: 'default',
       });
     } catch (error) {
       console.error('Error:', error);
       toast({
-        title: 'Erro ao adicionar ambiente.',
+        title: 'Erro ao adicionar Manutenção.',
         variant: 'destructive',
       });
     }
@@ -119,7 +121,7 @@ export function CreateAmbientForm({
             className="w-auto max-w-none"
           >
             <SheetHeader>
-              <SheetTitle>Criar ambiente</SheetTitle>
+              <SheetTitle>Criar Manutenção</SheetTitle>
               <SheetDescription>
                 Inseria os dados e em seguida clique em
                 salvar.
@@ -153,22 +155,18 @@ export function CreateAmbientForm({
               <div className="grid grid-cols-1 items-center gap-4">
                 <FormField
                   control={form.control}
-                  name="description"
+                  name="ambient"
                   render={({ field }) => (
                     <FormItem>
                       <Label
-                        htmlFor="description"
+                        htmlFor="ambient"
                         className="text-right"
                       >
-                        Descrição
+                        Ambiente
                       </Label>
-                      <Input
-                        id="description"
+                      <SelectForm
                         onChange={field.onChange}
                         defaultValue={field.value}
-                        disabled={isLoading}
-                        className="col-span-3"
-                        type="text"
                       />
                       <FormMessage />
                     </FormItem>

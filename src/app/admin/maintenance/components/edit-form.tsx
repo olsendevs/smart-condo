@@ -15,7 +15,7 @@ import { SelectForm } from './select-type';
 import { useLoading } from '@/components/admin/is-loading';
 import { toast } from '@/components/ui/use-toast';
 
-export function EditAmbientForm({
+export function EditMaintenanceForm({
   formData,
   setFormData,
   setUpdateData,
@@ -30,12 +30,13 @@ export function EditAmbientForm({
       ).accessToken;
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/ambient/${formData.id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/maintenance/${formData.id}`,
         {
           method: 'PATCH',
           body: JSON.stringify({
             name: formData.name,
-            description: formData.description,
+            ambientId: formData.ambientId,
+            products: formData.products,
           }),
           headers: {
             Authorization: `Bearer ${token}`,
@@ -52,7 +53,7 @@ export function EditAmbientForm({
       ) {
         toast({
           title:
-            'Erro ao editar ambiente. Tente novamente.',
+            'Erro ao editar manutenção. Tente novamente.',
           variant: 'destructive',
           description: responseData.message,
         });
@@ -60,13 +61,13 @@ export function EditAmbientForm({
       }
 
       toast({
-        title: 'Ambiente editado com sucesso!',
+        title: 'Manutenção editada com sucesso!',
         variant: 'default',
       });
     } catch (error) {
       console.error('Error:', error);
       toast({
-        title: 'Erro ao editar ambiente.',
+        title: 'Erro ao editar manutenção.',
         variant: 'destructive',
       });
     }
@@ -86,14 +87,14 @@ export function EditAmbientForm({
       ></SheetTrigger>
       <SheetContent className="w-auto max-w-none">
         <SheetHeader>
-          <SheetTitle>Editar ambiente</SheetTitle>
+          <SheetTitle>Editar manutenção</SheetTitle>
           <SheetDescription>
             Edite os dados e em seguida clique em salvar.
           </SheetDescription>
         </SheetHeader>
         <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
+          <div className="grid grid-cols-1 items-center gap-4">
+            <Label htmlFor="name" className="text-left">
               Nome
             </Label>
             <Input
@@ -101,32 +102,26 @@ export function EditAmbientForm({
               onChange={(e) => {
                 setFormData({
                   name: e.target.value,
-                  description: formData.description,
+                  ambientId: formData.ambientId,
                   id: formData.id,
                 });
               }}
               className="col-span-3"
             />
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label
-              htmlFor="description"
-              className="text-right"
-            >
-              Descrição
+          <div className="grid grid-cols-1 items-center gap-4">
+            <Label htmlFor="ambient" className="text-left">
+              Ambiente
             </Label>
-            <Input
-              value={formData.description}
-              onChange={(e) => {
+            <SelectForm
+              value={formData.ambientId}
+              onChange={(e: any) => {
                 setFormData({
-                  name: formData.name,
-                  description: e.target.value,
                   id: formData.id,
+                  name: formData.name,
+                  ambientId: e,
                 });
               }}
-              id="edit-description"
-              className="col-span-3"
-              type="text"
             />
           </div>
         </div>
