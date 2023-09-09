@@ -26,7 +26,6 @@ import {
 } from '@/components/ui/form';
 
 export function CreateUserForm({
-  setFormData,
   tableData,
   setTableData,
 }: any) {

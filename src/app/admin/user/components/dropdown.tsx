@@ -12,19 +12,71 @@ import { SheetTrigger } from '@/components/ui/sheet';
 import { MoreHorizontal } from 'lucide-react';
 import { EditUserForm } from './edit-user-form';
 import { useState } from 'react';
+import { useLoading } from '@/components/admin/is-loading';
+import { toast } from '@/components/ui/use-toast';
+import { Toaster } from '@/components/ui/toaster';
 
-export function Dropdown({ user, data, setData }: any) {
-  function deleteUser(id: any) {
-    setData({
+export function Dropdown({
+  user,
+  setEditFormData,
+  tableData,
+  setTableData,
+}: any) {
+  const { setIsLoading } = useLoading();
+  async function deleteUser(id: any) {
+    setIsLoading(true);
+    setEditFormData({
       name: '',
       email: '',
       type: '',
     });
+
+    try {
+      const token = JSON.parse(
+        localStorage.getItem('user') || '',
+      ).accessToken;
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/user/${id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      if (
+        response.status === 500 ||
+        response.status === 400
+      ) {
+        toast({
+          title:
+            'Erro ao deletar usuário. Tente novamente.',
+          variant: 'destructive',
+        });
+        return;
+      }
+
+      const tableDataWithoutDeleted = tableData.filter(
+        (x: any) => x._id != id,
+      );
+
+      setTableData(tableDataWithoutDeleted);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+    setTimeout(() => {
+      toast({
+        title: 'Usuário deletado com sucesso!',
+        variant: 'destructive',
+      });
+      setIsLoading(false);
+    }, 300);
     return;
   }
 
   function editUser(user: any) {
-    setData(() => ({
+    setEditFormData(() => ({
       name: user.name,
       email: user.email,
       type: user.type,
@@ -66,6 +118,7 @@ export function Dropdown({ user, data, setData }: any) {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+      <Toaster />
     </>
   );
 }

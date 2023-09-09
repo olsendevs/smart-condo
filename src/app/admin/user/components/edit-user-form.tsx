@@ -12,15 +12,11 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { SelectForm } from './select-type';
-import { useEffect } from 'react';
 
 export function EditUserForm({
   formData,
   setFormData,
 }: any) {
-  useEffect(() => {
-    console.log(formData.name);
-  }, [formData]);
   return (
     <Sheet>
       <SheetTrigger

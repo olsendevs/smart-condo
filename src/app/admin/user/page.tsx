@@ -53,7 +53,12 @@ export default function User() {
     <main className="pt-20 pl-5">
       <h1 className="pb-2">Usuários</h1>
       <DataTable
-        columns={columns({ editFormData, setEditFormData })}
+        columns={columns({
+          editFormData,
+          setEditFormData,
+          tableData,
+          setTableData,
+        })}
         data={tableData}
       />
       <CreateUserForm

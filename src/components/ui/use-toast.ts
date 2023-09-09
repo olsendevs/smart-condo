@@ -147,7 +147,6 @@ let memoryState: State = { toasts: [] };
 function dispatch(action: Action) {
   memoryState = reducer(memoryState, action);
   listeners.forEach((listener) => {
-    console.log(memoryState);
     listener(memoryState);
   });
 }
