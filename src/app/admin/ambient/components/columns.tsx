@@ -1,6 +1,6 @@
 'use client';
 
-import { User } from '@/types/user';
+import { Ambient } from '@/types/ambient';
 
 import { ColumnDef } from '@tanstack/react-table';
 
@@ -10,10 +10,11 @@ import { Button } from '@/components/ui/button';
 import { ArrowUpDown } from 'lucide-react';
 
 export function columns({
+  editFormData,
   setEditFormData,
   tableData,
   setTableData,
-}: any): ColumnDef<User>[] {
+}: any): ColumnDef<Ambient>[] {
   return [
     {
       accessorKey: '_id',
@@ -59,7 +60,7 @@ export function columns({
       },
     },
     {
-      accessorKey: 'email',
+      accessorKey: 'description',
       header: ({ column }) => {
         return (
           <Button
@@ -70,50 +71,20 @@ export function columns({
               )
             }
           >
-            Email
+            Descrição
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
-        );
-      },
-    },
-    {
-      accessorKey: 'type',
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() =>
-              column.toggleSorting(
-                column.getIsSorted() === 'asc',
-              )
-            }
-          >
-            Tipo
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        );
-      },
-      cell: ({ row }) => {
-        const names: Record<string, string> = {
-          admin: 'Admin',
-          manager: 'Sindico',
-          employee: 'Empregado',
-        };
-        const item = row.getValue('type') as any;
-        const result = names[item] as any;
-        return (
-          <div className="text-start ml-5">{result}</div>
         );
       },
     },
     {
       id: 'actions',
       cell: ({ row }) => {
-        const user = row.original;
+        const ambient = row.original;
 
         return (
           <Dropdown
-            user={user}
+            ambient={ambient}
             setEditFormData={setEditFormData}
             setTableData={setTableData}
             tableData={tableData}
