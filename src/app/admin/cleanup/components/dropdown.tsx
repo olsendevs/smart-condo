@@ -11,17 +11,15 @@ import {
 import { MoreHorizontal } from 'lucide-react';
 import { useLoading } from '@/components/admin/is-loading';
 import { toast } from '@/components/ui/use-toast';
-import { Toaster } from '@/components/ui/toaster';
-import { Maintenance } from '@/types/maintenance';
 
 export function Dropdown({
-  maintenance,
+  cleanUp,
   setEditFormData,
   tableData,
   setTableData,
 }: any) {
   const { setIsLoading } = useLoading();
-  async function deleteMaintenance(id: any) {
+  async function deleteCleanUp(id: any) {
     setIsLoading(true);
     setEditFormData({
       name: '',
@@ -33,7 +31,7 @@ export function Dropdown({
         localStorage.getItem('user') || '',
       ).accessToken;
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/maintenance/${id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/cleanUp/${id}`,
         {
           method: 'DELETE',
           headers: {
@@ -48,7 +46,7 @@ export function Dropdown({
       ) {
         toast({
           title:
-            'Erro ao deletar Manutenção. Tente novamente.',
+            'Erro ao deletar Limpeza. Tente novamente.',
           variant: 'destructive',
         });
         return;
@@ -64,7 +62,7 @@ export function Dropdown({
     }
     setTimeout(() => {
       toast({
-        title: 'Manutenção deletada com sucesso!',
+        title: 'Limpeza deletada com sucesso!',
         variant: 'destructive',
       });
       setIsLoading(false);
@@ -72,12 +70,12 @@ export function Dropdown({
     return;
   }
 
-  function editMaintenance(maintenance: any) {
-    console.log(maintenance);
+  function editCleanUp(cleanUp: any) {
+    console.log(cleanUp);
     setEditFormData(() => ({
-      name: maintenance.name,
-      ambientId: maintenance.ambientId._id,
-      id: maintenance._id,
+      name: cleanUp.name,
+      ambientId: cleanUp.ambientId._id,
+      id: cleanUp._id,
     }));
 
     document.getElementById('open-edit-form')?.click();
@@ -96,23 +94,26 @@ export function Dropdown({
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>
-            Ações na manutenção
+            Ações na limpeza
           </DropdownMenuLabel>
           <DropdownMenuItem
-            onClick={() => console.log(maintenance)}
+            onClick={() => console.log(cleanUp)}
           >
-            Produtos comprados
+            Enviar evidência da limpeza
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => console.log(cleanUp)}
+          >
+            Verificar lista de tarefas
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
-            onClick={() => editMaintenance(maintenance)}
+            onClick={() => editCleanUp(cleanUp)}
           >
             Editar
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() =>
-              deleteMaintenance(maintenance._id)
-            }
+            onClick={() => deleteCleanUp(cleanUp._id)}
           >
             Deletar
           </DropdownMenuItem>
