@@ -155,6 +155,7 @@ export default function MenuHeader() {
                     className={navigationMenuTriggerStyle()}
                     onClick={() => {
                       logout();
+                      window.location.href = '/auth/login';
                     }}
                   >
                     Sair
