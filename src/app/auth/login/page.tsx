@@ -1,12 +1,6 @@
 import { Metadata } from 'next';
 import { UserAuthForm } from './components/user-auth-form';
 
-export const metadata: Metadata = {
-  title: 'Login',
-  description:
-    'Realize o o login para se autenticar na plataforma.',
-};
-
 export default function AuthenticationPage() {
   return (
     <>

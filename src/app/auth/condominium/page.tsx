@@ -4,12 +4,6 @@ import { Metadata } from 'next';
 import React from 'react';
 import { CondominiumForm } from './components/condominium-form';
 
-export const metadata: Metadata = {
-  title: 'Selecione o Condominio',
-  description:
-    'Escolha o condominio que deseja prosseguir.',
-};
-
 export default function CondominiumPage() {
   return (
     <>
