@@ -602,10 +602,6 @@
   resolved "https://registry.yarnpkg.com/@tanstack/table-core/-/table-core-8.9.3.tgz#991da6b015f6200fdc841c48048bee5e197f6a46"
   integrity sha512-NpHZBoHTfqyJk0m/s/+CSuAiwtebhYK90mDuf5eylTvgViNOujiaOaxNDxJkQQAsVvHWZftUGAx1EfO1rkKtLg==
 
-"@types/@boiseitguru/cookie-cutter":
-  version "0.2.1"
-  resolved "https://codeload.github.com/boiseitguru/cookie-cutter/tar.gz/c38a7dd18f1af0e1a9b068e2633cdaec82539a3c"
-
 "@types/js-cookie@^3.0.3":
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@types/js-cookie/-/js-cookie-3.0.3.tgz#d6bfbbdd0c187354ca555213d1962f6d0691ff4e"
