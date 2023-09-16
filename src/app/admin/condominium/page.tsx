@@ -2,14 +2,14 @@
 
 import React from 'react';
 import { DataTable } from './components/data-table';
-import { Project } from '@/types/project';
+import { Condominium } from '@/types/condominium';
 import { columns } from './components/columns';
 import 'dotenv/config';
 import { LoadingSpinner } from '@/components/admin/loading-spinner';
-import { CreateProjectForm } from './components/create-form';
-import { EditProjectForm } from './components/edit-form';
+import { CreateCondominiumForm } from './components/create-form';
+import { EditCondominiumForm } from './components/edit-form';
 
-export default function Project() {
+export default function Condominium() {
   const [tableData, setTableData] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -19,10 +19,7 @@ export default function Project() {
 
   const [editFormData, setEditFormData] = React.useState({
     name: '',
-    budget: '',
-    startDate: '',
-    endDate: '',
-    assemblyApproval: '',
+    address: '',
   });
 
   React.useEffect(() => {
@@ -32,12 +29,8 @@ export default function Project() {
           localStorage.getItem('user') || '',
         ).accessToken;
 
-        const condominiumId = JSON.parse(
-          localStorage.getItem('condominium') || '',
-        )._id;
-
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/project/condominium/${condominiumId}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/condominium/`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -45,17 +38,8 @@ export default function Project() {
           },
         );
         const responseData = await response.json();
-        const result = responseData.map((e: any) => {
-          e.assemblyApproval
-            ? (e.assemblyApprovalLabel = 'Aprovado')
-            : (e.assemblyApprovalLabel = 'Não Aprovado');
 
-          e.startDate = e.startDate.split('T')[0];
-          return e;
-        });
-
-        console.log(result);
-        setTableData(result);
+        setTableData(responseData);
       } catch (error) {
         console.error('Error:', error);
         setTableData([]);
@@ -70,7 +54,7 @@ export default function Project() {
 
   return (
     <main className="pt-20 pl-5">
-      <h1 className="pb-2">Projeto</h1>
+      <h1 className="pb-2">Condominio</h1>
       <DataTable
         columns={columns({
           editFormData,
@@ -80,12 +64,12 @@ export default function Project() {
         })}
         data={tableData}
       />
-      <CreateProjectForm
+      <CreateCondominiumForm
         tableData={tableData}
         setTableData={setTableData}
       />
       <div>
-        <EditProjectForm
+        <EditCondominiumForm
           formData={editFormData}
           setFormData={setEditFormData}
           setUpdateData={setUpdateData}

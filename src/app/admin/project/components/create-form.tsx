@@ -11,7 +11,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { SelectForm } from './select-type';
 import { useLoading } from '@/components/admin/is-loading';
 import { toast } from '@/components/ui/use-toast';
 import { Toaster } from '@/components/ui/toaster';
@@ -24,8 +23,9 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
+import { SelectForm } from './select-status';
 
-export function CreateCleanUpForm({
+export function CreateProjectForm({
   tableData,
   setTableData,
 }: any) {
@@ -33,8 +33,18 @@ export function CreateCleanUpForm({
     name: z.string({
       required_error: 'O nome é obrigatório',
     }),
-    ambient: z.string({
-      required_error: 'O ambiente é obrigatório',
+    budget: z.string({
+      required_error: 'O budget é obrigatório',
+    }),
+    startDate: z.string({
+      required_error: 'A data de inicio é obrigatória',
+    }),
+    endDate: z.string({
+      required_error: 'A data de termino é obrigatória',
+    }),
+    assemblyApproval: z.string({
+      required_error:
+        'A aprovação da assembléia é obrigatória',
     }),
   });
 
@@ -57,13 +67,12 @@ export function CreateCleanUpForm({
       );
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/cleanup/`,
+        `${process.env.NEXT_PUBLIC_API_URL}/project/`,
         {
           method: 'POST',
           body: JSON.stringify({
             ...data,
             condominiumId: condominium._id,
-            ambientId: data.ambient,
           }),
           headers: {
             Authorization: `Bearer ${token}`,
@@ -80,7 +89,7 @@ export function CreateCleanUpForm({
       ) {
         toast({
           title:
-            'Erro ao adicionar Limpeza. Tente novamente.',
+            'Erro ao adicionar project. Tente novamente.',
           variant: 'destructive',
           description: responseData.message,
         });
@@ -90,13 +99,13 @@ export function CreateCleanUpForm({
       setTableData([...tableData, responseData]);
 
       toast({
-        title: 'Limpeza adicionada com sucesso!',
+        title: 'Projecte adicionado com sucesso!',
         variant: 'default',
       });
     } catch (error) {
       console.error('Error:', error);
       toast({
-        title: 'Erro ao adicionar Limpeza.',
+        title: 'Erro ao adicionar project.',
         variant: 'destructive',
       });
     }
@@ -120,7 +129,7 @@ export function CreateCleanUpForm({
             className="w-auto max-w-none"
           >
             <SheetHeader>
-              <SheetTitle>Criar Limpeza</SheetTitle>
+              <SheetTitle>Criar projeto</SheetTitle>
               <SheetDescription>
                 Inseria os dados e em seguida clique em
                 salvar.
@@ -154,14 +163,89 @@ export function CreateCleanUpForm({
               <div className="grid grid-cols-1 items-center gap-4">
                 <FormField
                   control={form.control}
-                  name="ambient"
+                  name="budget"
                   render={({ field }) => (
                     <FormItem>
                       <Label
-                        htmlFor="ambient"
+                        htmlFor="budget"
                         className="text-right"
                       >
-                        Ambiente
+                        Budget
+                      </Label>
+                      <Input
+                        id="budget"
+                        onChange={field.onChange}
+                        defaultValue={field.value}
+                        disabled={isLoading}
+                        className="col-span-3"
+                        type="number"
+                      />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="grid grid-cols-1 items-center gap-4">
+                <FormField
+                  control={form.control}
+                  name="startDate"
+                  render={({ field }) => (
+                    <FormItem>
+                      <Label
+                        htmlFor="startDate"
+                        className="text-right"
+                      >
+                        Data inicial
+                      </Label>
+                      <Input
+                        id="startDate"
+                        onChange={field.onChange}
+                        defaultValue={field.value}
+                        disabled={isLoading}
+                        className="col-span-3"
+                        type="date"
+                      />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="grid grid-cols-1 items-center gap-4">
+                <FormField
+                  control={form.control}
+                  name="endDate"
+                  render={({ field }) => (
+                    <FormItem>
+                      <Label
+                        htmlFor="endDate"
+                        className="text-right"
+                      >
+                        Data final
+                      </Label>
+                      <Input
+                        id="endDate"
+                        onChange={field.onChange}
+                        defaultValue={field.value}
+                        disabled={isLoading}
+                        className="col-span-3"
+                        type="date"
+                      />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="grid grid-cols-1 items-center gap-4">
+                <FormField
+                  control={form.control}
+                  name="assemblyApproval"
+                  render={({ field }) => (
+                    <FormItem>
+                      <Label
+                        htmlFor="status"
+                        className="text-right"
+                      >
+                        Aprovação da assembléia
                       </Label>
                       <SelectForm
                         onChange={field.onChange}

@@ -56,6 +56,20 @@ export default function MenuHeader() {
             </NavigationMenuItem>
             <NavigationMenuItem className="mx-1">
               <Link
+                href="/admin/condominium"
+                legacyBehavior
+                passHref
+              >
+                <NavigationMenuLink
+                  className={navigationMenuTriggerStyle()}
+                  onClick={handleLinkClick}
+                >
+                  Condominio
+                </NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem className="mx-1">
+              <Link
                 href="/admin/ambient"
                 legacyBehavior
                 passHref

@@ -11,7 +11,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { SelectForm } from './select-type';
 import { useLoading } from '@/components/admin/is-loading';
 import { toast } from '@/components/ui/use-toast';
 import { Toaster } from '@/components/ui/toaster';
@@ -25,7 +24,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 
-export function CreateCleanUpForm({
+export function CreateCondominiumForm({
   tableData,
   setTableData,
 }: any) {
@@ -33,8 +32,8 @@ export function CreateCleanUpForm({
     name: z.string({
       required_error: 'O nome é obrigatório',
     }),
-    ambient: z.string({
-      required_error: 'O ambiente é obrigatório',
+    address: z.string({
+      required_error: 'O endereço é obrigatório',
     }),
   });
 
@@ -57,13 +56,12 @@ export function CreateCleanUpForm({
       );
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/cleanup/`,
+        `${process.env.NEXT_PUBLIC_API_URL}/condominium/`,
         {
           method: 'POST',
           body: JSON.stringify({
             ...data,
             condominiumId: condominium._id,
-            ambientId: data.ambient,
           }),
           headers: {
             Authorization: `Bearer ${token}`,
@@ -80,7 +78,7 @@ export function CreateCleanUpForm({
       ) {
         toast({
           title:
-            'Erro ao adicionar Limpeza. Tente novamente.',
+            'Erro ao adicionar condominiume. Tente novamente.',
           variant: 'destructive',
           description: responseData.message,
         });
@@ -90,13 +88,13 @@ export function CreateCleanUpForm({
       setTableData([...tableData, responseData]);
 
       toast({
-        title: 'Limpeza adicionada com sucesso!',
+        title: 'Condominiume adicionado com sucesso!',
         variant: 'default',
       });
     } catch (error) {
       console.error('Error:', error);
       toast({
-        title: 'Erro ao adicionar Limpeza.',
+        title: 'Erro ao adicionar condominiume.',
         variant: 'destructive',
       });
     }
@@ -120,7 +118,7 @@ export function CreateCleanUpForm({
             className="w-auto max-w-none"
           >
             <SheetHeader>
-              <SheetTitle>Criar Limpeza</SheetTitle>
+              <SheetTitle>Criar condominio</SheetTitle>
               <SheetDescription>
                 Inseria os dados e em seguida clique em
                 salvar.
@@ -154,18 +152,22 @@ export function CreateCleanUpForm({
               <div className="grid grid-cols-1 items-center gap-4">
                 <FormField
                   control={form.control}
-                  name="ambient"
+                  name="address"
                   render={({ field }) => (
                     <FormItem>
                       <Label
-                        htmlFor="ambient"
+                        htmlFor="address"
                         className="text-right"
                       >
-                        Ambiente
+                        Endereço
                       </Label>
-                      <SelectForm
+                      <Input
+                        id="address"
                         onChange={field.onChange}
                         defaultValue={field.value}
+                        disabled={isLoading}
+                        className="col-span-3"
+                        type="text"
                       />
                       <FormMessage />
                     </FormItem>
