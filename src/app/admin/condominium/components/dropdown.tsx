@@ -49,7 +49,7 @@ export function Dropdown({
       ) {
         toast({
           title:
-            'Erro ao deletar condominiume. Tente novamente.',
+            'Erro ao deletar condominio. Tente novamente.',
           variant: 'destructive',
         });
         return;
@@ -65,7 +65,7 @@ export function Dropdown({
     }
     setTimeout(() => {
       toast({
-        title: 'Condominiume deletado com sucesso!',
+        title: 'Condominio deletado com sucesso!',
         variant: 'destructive',
       });
       setIsLoading(false);
@@ -96,7 +96,7 @@ export function Dropdown({
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>
-            Ações no condominiume
+            Ações no condominio
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem

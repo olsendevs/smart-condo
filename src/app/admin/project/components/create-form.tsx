@@ -89,7 +89,7 @@ export function CreateProjectForm({
       ) {
         toast({
           title:
-            'Erro ao adicionar project. Tente novamente.',
+            'Erro ao adicionar projeto. Tente novamente.',
           variant: 'destructive',
           description: responseData.message,
         });
@@ -99,7 +99,7 @@ export function CreateProjectForm({
       setTableData([...tableData, responseData]);
 
       toast({
-        title: 'Projecte adicionado com sucesso!',
+        title: 'Projeto adicionado com sucesso!',
         variant: 'default',
       });
     } catch (error) {

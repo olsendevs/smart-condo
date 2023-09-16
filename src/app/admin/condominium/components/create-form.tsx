@@ -78,7 +78,7 @@ export function CreateCondominiumForm({
       ) {
         toast({
           title:
-            'Erro ao adicionar condominiume. Tente novamente.',
+            'Erro ao adicionar condominio. Tente novamente.',
           variant: 'destructive',
           description: responseData.message,
         });
@@ -88,13 +88,13 @@ export function CreateCondominiumForm({
       setTableData([...tableData, responseData]);
 
       toast({
-        title: 'Condominiume adicionado com sucesso!',
+        title: 'Condominio adicionado com sucesso!',
         variant: 'default',
       });
     } catch (error) {
       console.error('Error:', error);
       toast({
-        title: 'Erro ao adicionar condominiume.',
+        title: 'Erro ao adicionar condominio.',
         variant: 'destructive',
       });
     }

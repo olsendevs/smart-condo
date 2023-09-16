@@ -51,7 +51,7 @@ export function EditCondominiumForm({
       ) {
         toast({
           title:
-            'Erro ao editar condominiume. Tente novamente.',
+            'Erro ao editar condominio. Tente novamente.',
           variant: 'destructive',
           description: responseData.message,
         });
@@ -59,13 +59,13 @@ export function EditCondominiumForm({
       }
 
       toast({
-        title: 'Condominiume editado com sucesso!',
+        title: 'Condominio editado com sucesso!',
         variant: 'default',
       });
     } catch (error) {
       console.error('Error:', error);
       toast({
-        title: 'Erro ao editar condominiume.',
+        title: 'Erro ao editar condominio.',
         variant: 'destructive',
       });
     }
