@@ -5,10 +5,6 @@ import MenuHeader from '@/components/admin/menu-header';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
-export const metadata: Metadata = {
-  title: 'Usuários',
-  description: 'Gerencie os usuários da plataforma',
-};
 export default function RootLayout({
   children,
 }: {
