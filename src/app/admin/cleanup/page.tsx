@@ -8,6 +8,7 @@ import 'dotenv/config';
 import { LoadingSpinner } from '@/components/admin/loading-spinner';
 import { CreateCleanUpForm } from './components/create-form';
 import { EditCleanUpForm } from './components/edit-form';
+import { Tag } from '@/components/ui/tag-input';
 
 export default function CleanUp() {
   const [tableData, setTableData] = React.useState([]);
@@ -20,6 +21,7 @@ export default function CleanUp() {
   const [editFormData, setEditFormData] = React.useState({
     name: '',
     ambientId: '',
+    tasks: [],
   });
 
   React.useEffect(() => {

@@ -12,6 +12,9 @@ import { MoreHorizontal } from 'lucide-react';
 import { useLoading } from '@/components/admin/is-loading';
 import { toast } from '@/components/ui/use-toast';
 
+import { useState } from 'react';
+
+import Swal from 'sweetalert2';
 export function Dropdown({
   cleanUp,
   setEditFormData,
@@ -24,6 +27,7 @@ export function Dropdown({
     setEditFormData({
       name: '',
       ambientId: '',
+      tasks: [],
     });
 
     try {
@@ -75,6 +79,7 @@ export function Dropdown({
     setEditFormData(() => ({
       name: cleanUp.name,
       ambientId: cleanUp.ambientId._id,
+      tasks: cleanUp.tasks,
       id: cleanUp._id,
     }));
 
@@ -83,6 +88,7 @@ export function Dropdown({
     return;
   }
 
+  const openTasksDialog = () => {};
   return (
     <>
       <DropdownMenu>
@@ -102,7 +108,7 @@ export function Dropdown({
             Enviar evidência da limpeza
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() => console.log(cleanUp)}
+            onClick={() => openTasksDialog()}
           >
             Verificar lista de tarefas
           </DropdownMenuItem>

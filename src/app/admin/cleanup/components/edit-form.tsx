@@ -14,6 +14,15 @@ import {
 import { SelectForm } from './select-type';
 import { useLoading } from '@/components/admin/is-loading';
 import { toast } from '@/components/ui/use-toast';
+import {
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormDescription,
+  FormMessage,
+} from '@/components/ui/form';
+import { Tag, TagInput } from '@/components/ui/tag-input';
+import React from 'react';
 
 export function EditCleanUpForm({
   formData,
@@ -36,7 +45,7 @@ export function EditCleanUpForm({
           body: JSON.stringify({
             name: formData.name,
             ambientId: formData.ambientId,
-            products: formData.products,
+            tasks: formData.tasks,
           }),
           headers: {
             Authorization: `Bearer ${token}`,
@@ -103,6 +112,7 @@ export function EditCleanUpForm({
                   name: e.target.value,
                   ambientId: formData.ambientId,
                   id: formData.id,
+                  tasks: formData.tasks,
                 });
               }}
               className="col-span-3"
@@ -119,9 +129,32 @@ export function EditCleanUpForm({
                   id: formData.id,
                   name: formData.name,
                   ambientId: e,
+                  tasks: formData.tasks,
                 });
               }}
             />
+          </div>
+          <div className="grid grid-cols-1 items-center gap-4">
+            <div className="flex flex-col items-start max-w-xl mt-2">
+              <Label className="text-left mb-5">
+                Tarefas
+              </Label>
+
+              <TagInput
+                {...formData.tasks}
+                placeholder="Escreva qual tarefa deve ser realizada"
+                tags={formData.tasks}
+                className="sm:min-w-[450px]"
+                setTags={(newTags) => {
+                  setFormData({
+                    id: formData.id,
+                    name: formData.name,
+                    ambientId: formData.ambientId,
+                    tasks: newTags,
+                  });
+                }}
+              />
+            </div>
           </div>
         </div>
         <SheetFooter>

@@ -20,10 +20,15 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Form,
+  FormControl,
+  FormDescription,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { Tag, TagInput } from '@/components/ui/tag-input';
+import React from 'react';
 
 export function CreateCleanUpForm({
   tableData,
@@ -36,11 +41,22 @@ export function CreateCleanUpForm({
     ambient: z.string({
       required_error: 'O ambiente é obrigatório',
     }),
+    tasks: z.array(
+      z.object({
+        id: z.string(),
+        name: z.string(),
+        done: z.boolean(),
+      }),
+    ),
   });
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
+
+  const [tags, setTags] = React.useState<Tag[]>([]);
+
+  const { setValue } = form;
 
   const { isLoading, setIsLoading } = useLoading();
   async function onSubmit(
@@ -104,6 +120,7 @@ export function CreateCleanUpForm({
 
     setTimeout(() => {
       form.reset();
+      setTags([]);
       setIsLoading(false);
     }, 300);
   }
@@ -167,6 +184,39 @@ export function CreateCleanUpForm({
                         onChange={field.onChange}
                         defaultValue={field.value}
                       />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="grid grid-cols-1 items-center gap-4">
+                <FormField
+                  control={form.control}
+                  name="tasks"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col items-start max-w-xl mt-2">
+                      <FormLabel className="text-left">
+                        Tarefas
+                      </FormLabel>
+                      <FormControl>
+                        <TagInput
+                          {...field}
+                          placeholder="Escreva qual tarefa deve ser realizada"
+                          tags={tags}
+                          className="sm:min-w-[450px]"
+                          setTags={(newTags) => {
+                            setTags(newTags);
+                            setValue(
+                              'tasks',
+                              newTags as [Tag, ...Tag[]],
+                            );
+                          }}
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        Aperte ENTER para adicionar uma
+                        tarefa a lista
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
