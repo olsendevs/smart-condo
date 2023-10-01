@@ -22,6 +22,7 @@ export default function User() {
     name: '',
     email: '',
     type: '',
+    condominiumId: '',
   });
 
   React.useEffect(() => {

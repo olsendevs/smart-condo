@@ -20,10 +20,19 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Form,
+  FormControl,
   FormField,
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@/components/ui/select';
+import React, { useState } from 'react';
 
 export function CreateUserForm({
   tableData,
@@ -44,13 +53,21 @@ export function CreateUserForm({
     type: z.string({
       required_error: 'O tipo é obrigatório',
     }),
+    condominiumId: z.string({
+      required_error: 'O condominio é obrigatório',
+    }),
   });
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
 
+  const [condominium, setCondominium] = useState([
+    { _id: '', name: '' },
+  ]);
+
   const { isLoading, setIsLoading } = useLoading();
+
   async function onSubmit(
     data: z.infer<typeof FormSchema>,
   ) {
@@ -107,6 +124,31 @@ export function CreateUserForm({
       setIsLoading(false);
     }, 300);
   }
+
+  React.useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const token = JSON.parse(
+        localStorage.getItem('user') || '',
+      ).accessToken;
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/condominium/`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      const responseData = await response.json();
+      setCondominium(responseData);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -217,6 +259,45 @@ export function CreateUserForm({
                         onChange={field.onChange}
                         defaultValue={field.value}
                       />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="grid grid-cols-1 items-center gap-4">
+                <FormField
+                  control={form.control}
+                  name="condominiumId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <Label
+                        htmlFor="username"
+                        className="text-right"
+                      >
+                        Condominio
+                      </Label>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Escolha o condominio" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {condominium.map((item) => {
+                            return (
+                              <SelectItem
+                                value={item._id}
+                                key={item._id}
+                              >
+                                {item.name}
+                              </SelectItem>
+                            );
+                          })}
+                        </SelectContent>
+                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}

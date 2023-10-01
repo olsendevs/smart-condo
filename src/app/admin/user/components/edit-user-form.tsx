@@ -14,6 +14,7 @@ import {
 import { SelectForm } from './select-type';
 import { useLoading } from '@/components/admin/is-loading';
 import { toast } from '@/components/ui/use-toast';
+import { SelectCondominiumForm } from './select-condominium';
 
 export function EditUserForm({
   formData,
@@ -42,6 +43,7 @@ export function EditUserForm({
             name: formData.name,
             email: formData.email,
             type: formData.type,
+            condominiumId: formData.condominiumId,
             password: pass,
           }),
           headers: {
@@ -97,7 +99,7 @@ export function EditUserForm({
             Edite os dados e em seguida clique em salvar.
           </SheetDescription>
         </SheetHeader>
-        <div className="grid gap-4 py-4">
+        <div className="grid gap-4 py-4 w-[20vw]">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="name" className="text-right">
               Nome
@@ -110,6 +112,7 @@ export function EditUserForm({
                   email: formData.email,
                   type: formData.type,
                   password: formData.password,
+                  condominiumId: formData.condominiumId,
                   id: formData.id,
                 });
               }}
@@ -129,6 +132,7 @@ export function EditUserForm({
                   type: formData.type,
                   password: formData.password,
                   id: formData.id,
+                  condominiumId: formData.condominiumId,
                 });
               }}
               id="edit-email"
@@ -151,6 +155,7 @@ export function EditUserForm({
                   name: formData.name,
                   email: formData.email,
                   password: e.target.value,
+                  condominiumId: formData.condominiumId,
                   type: formData.type,
                 });
               }}
@@ -174,10 +179,34 @@ export function EditUserForm({
                   name: formData.name,
                   email: formData.email,
                   password: formData.password,
+                  condominiumId: formData.condominiumId,
                   type: e,
                 });
               }}
             />
+          </div>
+          <div className="flex items-center  gap-4">
+            <Label
+              htmlFor="username"
+              className="text-right"
+            >
+              Condominio
+            </Label>
+            <div className="w-[100%]">
+              <SelectCondominiumForm
+                value={formData.condominiumId}
+                onChange={(e: any) => {
+                  setFormData({
+                    id: formData.id,
+                    name: formData.name,
+                    email: formData.email,
+                    password: formData.password,
+                    condominiumId: e,
+                    type: formData.type,
+                  });
+                }}
+              />
+            </div>
           </div>
         </div>
         <SheetFooter>

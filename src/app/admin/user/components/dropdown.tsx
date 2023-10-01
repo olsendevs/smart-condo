@@ -77,6 +77,7 @@ export function Dropdown({
       name: user.name,
       email: user.email,
       type: user.type,
+      condominiumId: user.condominiumId,
       id: user._id,
     }));
 
