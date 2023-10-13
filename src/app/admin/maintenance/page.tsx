@@ -8,6 +8,7 @@ import 'dotenv/config';
 import { LoadingSpinner } from '@/components/admin/loading-spinner';
 import { CreateMaintenanceForm } from './components/create-form';
 import { EditMaintenanceForm } from './components/edit-form';
+import { ProductsSheet } from './components/products-sheet';
 
 export default function Maintenance() {
   const [tableData, setTableData] = React.useState([]);
@@ -21,6 +22,19 @@ export default function Maintenance() {
     name: '',
     ambientId: '',
   });
+
+  const [productsSheetData, setProductsSheetData] =
+    React.useState([
+      {
+        name: '',
+        invoice: '',
+        price: 0,
+        buyDate: '',
+        guaranteeDate: '',
+        employeeId: '',
+        image: '',
+      },
+    ]);
 
   React.useEffect(() => {
     async function fetchData() {
@@ -62,6 +76,8 @@ export default function Maintenance() {
         columns={columns({
           editFormData,
           setEditFormData,
+          productsSheetData,
+          setProductsSheetData,
           tableData,
           setTableData,
         })}
@@ -76,6 +92,10 @@ export default function Maintenance() {
           formData={editFormData}
           setFormData={setEditFormData}
           setUpdateData={setUpdateData}
+        />
+        <ProductsSheet
+          productsSheetData={productsSheetData}
+          setProductsSheetData={setProductsSheetData}
         />
       </div>
       <LoadingSpinner visible={isLoading} />

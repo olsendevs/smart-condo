@@ -71,7 +71,6 @@ export function EditMaintenanceForm({
         variant: 'destructive',
       });
     }
-    document.getElementById('close')?.click();
 
     setTimeout(() => {
       setUpdateData(new Date());

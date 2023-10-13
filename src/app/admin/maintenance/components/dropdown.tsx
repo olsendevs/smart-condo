@@ -17,6 +17,8 @@ import { Maintenance } from '@/types/maintenance';
 export function Dropdown({
   maintenance,
   setEditFormData,
+  productsSheetData,
+  setProductsSheetData,
   tableData,
   setTableData,
 }: any) {
@@ -85,6 +87,17 @@ export function Dropdown({
     return;
   }
 
+  const handleProductSheet = (maintenance: any) => {
+    console.log(maintenance.products);
+    setProductsSheetData(maintenance.products);
+
+    console.log(productsSheetData);
+
+    document.getElementById('open-products-sheet')?.click();
+
+    return;
+  };
+
   return (
     <>
       <DropdownMenu>
@@ -99,7 +112,7 @@ export function Dropdown({
             Ações na manutenção
           </DropdownMenuLabel>
           <DropdownMenuItem
-            onClick={() => console.log(maintenance)}
+            onClick={() => handleProductSheet(maintenance)}
           >
             Produtos comprados
           </DropdownMenuItem>
