@@ -17,6 +17,7 @@ import { Project } from '@/types/project';
 export function Dropdown({
   project,
   setEditFormData,
+  setSendExpensesData,
   tableData,
   setTableData,
 }: any) {
@@ -89,6 +90,18 @@ export function Dropdown({
     return;
   }
 
+  const handleSendExpenses = (project: any) => {
+    setSendExpensesData(() => ({
+      id: project._id,
+      sendDate: '',
+      cost: '',
+    }));
+
+    document.getElementById('open-expenses-form')?.click();
+
+    return;
+  };
+
   return (
     <>
       <DropdownMenu>
@@ -102,15 +115,12 @@ export function Dropdown({
           <DropdownMenuLabel>
             Ações no projeto
           </DropdownMenuLabel>
-          {project.assemblyApproval ? (
-            <DropdownMenuItem
-              onClick={() => console.log(project)}
-            >
-              Lançar despesa
-            </DropdownMenuItem>
-          ) : (
-            ''
-          )}
+          <DropdownMenuItem
+            onClick={() => handleSendExpenses(project)}
+          >
+            Lançar despesa
+          </DropdownMenuItem>
+
           <DropdownMenuSeparator />
           <DropdownMenuItem
             onClick={() => editProject(project)}

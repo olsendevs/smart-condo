@@ -12,6 +12,7 @@ import { ArrowUpDown } from 'lucide-react';
 export function columns({
   editFormData,
   setEditFormData,
+  setSendExpensesData,
   tableData,
   setTableData,
 }: any): ColumnDef<Project>[] {
@@ -104,6 +105,7 @@ export function columns({
           <Dropdown
             project={project}
             setEditFormData={setEditFormData}
+            setSendExpensesData={setSendExpensesData}
             setTableData={setTableData}
             tableData={tableData}
           />

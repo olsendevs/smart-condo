@@ -8,6 +8,7 @@ import 'dotenv/config';
 import { LoadingSpinner } from '@/components/admin/loading-spinner';
 import { CreateProjectForm } from './components/create-form';
 import { EditProjectForm } from './components/edit-form';
+import { SendExpensesForm } from './components/expenses-form';
 
 export default function Project() {
   const [tableData, setTableData] = React.useState([]);
@@ -24,6 +25,13 @@ export default function Project() {
     endDate: '',
     assemblyApproval: '',
   });
+
+  const [sendExpensesData, setSendExpensesData] =
+    React.useState({
+      id: '',
+      cost: '',
+      sendDate: '',
+    });
 
   React.useEffect(() => {
     async function fetchData() {
@@ -75,6 +83,8 @@ export default function Project() {
         columns={columns({
           editFormData,
           setEditFormData,
+          sendExpensesData,
+          setSendExpensesData,
           tableData,
           setTableData,
         })}
@@ -88,6 +98,11 @@ export default function Project() {
         <EditProjectForm
           formData={editFormData}
           setFormData={setEditFormData}
+          setUpdateData={setUpdateData}
+        />
+        <SendExpensesForm
+          formData={sendExpensesData}
+          setFormData={setSendExpensesData}
           setUpdateData={setUpdateData}
         />
       </div>
