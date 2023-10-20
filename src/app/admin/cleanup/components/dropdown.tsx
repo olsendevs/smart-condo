@@ -88,7 +88,17 @@ export function Dropdown({
     return;
   }
 
-  const openTasksDialog = () => {};
+  const openTasksDialog = (cleanUp: any) => {
+    console.log(cleanUp);
+    setEditFormData(() => ({
+      name: cleanUp.name,
+      ambientId: cleanUp.ambientId._id,
+      tasks: cleanUp.tasks,
+      id: cleanUp._id,
+    }));
+
+    document.getElementById('open-tasks-modal')?.click();
+  };
   return (
     <>
       <DropdownMenu>
@@ -108,7 +118,7 @@ export function Dropdown({
             Enviar evidência da limpeza
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() => openTasksDialog()}
+            onClick={() => openTasksDialog(cleanUp)}
           >
             Verificar lista de tarefas
           </DropdownMenuItem>
