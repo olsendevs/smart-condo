@@ -112,7 +112,10 @@ export default function Home() {
       </h1>
       <div className="mt-4">
         {projects.map((project: any) => (
-          <Card className="mt-4 mr-4 w-[41vw]">
+          <Card
+            className="mt-4 mr-4 w-[41vw]"
+            key={project._id}
+          >
             <CardHeader>
               <CardTitle>{project.name}</CardTitle>
               <CardDescription>
