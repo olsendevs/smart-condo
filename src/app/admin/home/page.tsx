@@ -12,10 +12,13 @@ import { Progress } from '@/components/ui/progress';
 import React, { useState } from 'react';
 
 export default function Home() {
-  const [projects, setProjects] = useState({
-    approved: 0,
-    rejected: 0,
-  });
+  const [projectsAprovation, setProjectsAprovation] =
+    useState({
+      approved: 0,
+      rejected: 0,
+    });
+
+  const [projects, setProjects] = useState<any>([]);
 
   const [isLoading, setIsLoading] = React.useState(false);
   React.useEffect(() => {
@@ -38,6 +41,8 @@ export default function Home() {
           },
         );
         const responseData = await response.json();
+        setProjects(responseData);
+        console.log(responseData);
         const projectsApproved = responseData.filter(
           (e: any) => e.assemblyApproval,
         ).length;
@@ -51,7 +56,7 @@ export default function Home() {
         const rejectedPercentage =
           (projectsRejected / totalProjects) * 100;
 
-        setProjects({
+        setProjectsAprovation({
           approved: Number(approvedPercentage.toFixed(1)),
           rejected: Number(rejectedPercentage.toFixed(1)),
         });
@@ -66,33 +71,89 @@ export default function Home() {
     fetchData();
   }, []);
   return (
-    <main className="flex pt-20 pl-5">
-      <Card className="mr-4 w-[20vw]">
-        <CardHeader>
-          <CardTitle>Projetos APROVADOS</CardTitle>
-          <CardDescription>
-            Porcentagem de projetos aprovados pela
-            assembléia
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p className="text-xl">{projects.approved}%</p>
-          <Progress value={projects.approved} />
-        </CardContent>
-      </Card>
-      <Card className="mr-4 w-[20vw]">
-        <CardHeader>
-          <CardTitle>Projetos NÃO APROVADOS</CardTitle>
-          <CardDescription>
-            Porcentagem de projetos que NÃO foram aprovados
-            pela assembléia
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p className="text-xl">{projects.rejected}%</p>
-          <Progress value={projects.rejected} />
-        </CardContent>
-      </Card>
+    <main className="pt-20 pl-5">
+      <h1 className="mb-4 text-2xl">
+        Relatório de aprovação dos projetos
+      </h1>
+      <div className="flex">
+        <Card className="mr-4 w-[20vw]">
+          <CardHeader>
+            <CardTitle>Projetos APROVADOS</CardTitle>
+            <CardDescription>
+              Porcentagem de projetos aprovados pela
+              assembléia
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-xl">
+              {projectsAprovation.approved}%
+            </p>
+            <Progress value={projectsAprovation.approved} />
+          </CardContent>
+        </Card>
+        <Card className="mr-4 w-[20vw]">
+          <CardHeader>
+            <CardTitle>Projetos NÃO APROVADOS</CardTitle>
+            <CardDescription>
+              Porcentagem de projetos que NÃO foram
+              aprovados pela assembléia
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-xl">
+              {projectsAprovation.rejected}%
+            </p>
+            <Progress value={projectsAprovation.rejected} />
+          </CardContent>
+        </Card>
+      </div>
+      <h1 className="mt-4 text-2xl">
+        Relatório de despesas por projeto
+      </h1>
+      <div className="mt-4">
+        {projects.map((project: any) => (
+          <Card className="mt-4 mr-4 w-[41vw]">
+            <CardHeader>
+              <CardTitle>{project.name}</CardTitle>
+              <CardDescription>
+                {`Budget do projeto: R$${
+                  project.budget
+                } - Total de gastos até o momento: R$${project.expenses.reduce(
+                  (sum: any, e: any) => (sum += e.cost),
+                  0,
+                )}`}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-xl">
+                {Number(
+                  (
+                    (project.expenses.reduce(
+                      (sum: any, e: any) => (sum += e.cost),
+                      0,
+                    ) /
+                      project.budget) *
+                    100
+                  ).toFixed(1),
+                )}
+                %
+              </p>
+              <Progress
+                value={Number(
+                  (
+                    (project.expenses.reduce(
+                      (sum: any, e: any) => (sum += e.cost),
+                      0,
+                    ) /
+                      project.budget) *
+                    100
+                  ).toFixed(1),
+                )}
+              />
+            </CardContent>
+          </Card>
+        ))}
+      </div>
       <LoadingSpinner visible={isLoading} />
     </main>
   );
